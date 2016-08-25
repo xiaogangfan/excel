@@ -3,7 +3,7 @@ package com.xiaogang;
 import java.lang.annotation.*;
 
 /**
- * @author 'xiaogang'
+ * @author xiaogang
  * @date 2016-06-25
  */
 @Documented

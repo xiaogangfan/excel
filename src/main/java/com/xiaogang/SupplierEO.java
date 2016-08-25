@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * @author 'xiaogang'
+ * @author xiaogang
  * @date 2016-06-22
  */
 @Data
