@@ -1,7 +1,7 @@
 package com.xiaogang;
 
 import java.io.FileInputStream;
-
+import static org.junit.Assert.*;
 /**
  * @author xiaogang
  * @date 2016-06-28
@@ -9,9 +9,13 @@ import java.io.FileInputStream;
 public class ExcelUtilsTest {
 
     public static void main(String[] args) throws Exception {
-        ExcelResolveResult<FlexItemEO> result = ExcelUtils.resolveExcel(new FileInputStream("/Users/xiaogangfan/Downloads/item.xlsx"), FlexItemEO.class);
-        System.out.println(result.getData().size());
-        System.out.println(result);
+
+        try {
+            ExcelResolveResult<FlexItemEO> result = ExcelUtils.resolveExcel(new FileInputStream("/Users/xiaogangfan/Downloads/item.xlsx"), FlexItemEO.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("excel 解析失败："+e.getMessage());
+        }
 
     }
 
