@@ -2,18 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08ff0dfe-be02-461f-b832-1d7676cca816" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/xiaogang/FlexItemEO.class" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/xiaogang/FlexItemEO.java" afterPath="$PROJECT_DIR$/src/test/java/com/xiaogang/FlexItemEO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/xiaogang/BaseResultVO$Data.class" afterPath="$PROJECT_DIR$/target/classes/com/xiaogang/BaseResultVO$Data.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/xiaogang/BaseResultVO.class" afterPath="$PROJECT_DIR$/target/classes/com/xiaogang/BaseResultVO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/xiaogang/ExcelResolveResult.class" afterPath="$PROJECT_DIR$/target/classes/com/xiaogang/ExcelResolveResult.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/xiaogang/ExcelRowIndexSupport.class" afterPath="$PROJECT_DIR$/target/classes/com/xiaogang/ExcelRowIndexSupport.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/xiaogang/ExcelUtils.class" afterPath="$PROJECT_DIR$/target/classes/com/xiaogang/ExcelUtils.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xiaogang/BaseResultVO.java" afterPath="$PROJECT_DIR$/src/main/java/com/xiaogang/BaseResultVO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xiaogang/ExcelColumn.java" afterPath="$PROJECT_DIR$/src/main/java/com/xiaogang/ExcelColumn.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xiaogang/ExcelResolveResult.java" afterPath="$PROJECT_DIR$/src/main/java/com/xiaogang/ExcelResolveResult.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xiaogang/ExcelRowIndexSupport.java" afterPath="$PROJECT_DIR$/src/main/java/com/xiaogang/ExcelRowIndexSupport.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/xiaogang/ExcelUtils.java" afterPath="$PROJECT_DIR$/src/main/java/com/xiaogang/ExcelUtils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="excel.iws" />
@@ -59,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExcelUtils.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ExcelUtils.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/xiaogang/ExcelUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5141777">
-              <caret line="122" column="17" selection-start-line="122" selection-start-column="17" selection-end-line="122" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="120" column="0" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
               <folding>
                 <element signature="e#1861#1862#0" expanded="true" />
                 <element signature="e#1921#1922#0" expanded="true" />
@@ -113,10 +101,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExcelUtilsTest.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ExcelUtilsTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/com/xiaogang/ExcelUtilsTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="0.4536862">
               <caret line="16" column="19" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="25" />
               <folding />
             </state>
@@ -563,12 +551,12 @@
       <created>1472109756405</created>
       <option name="number" value="Default" />
       <updated>1472109756405</updated>
-      <workItem from="1472109758670" duration="8567000" />
+      <workItem from="1472109758670" duration="8819000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8567000" />
+    <option name="totallyTimeSpent" value="8819000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -640,14 +628,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/xiaogang/ExcelUtilsTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="19" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/xiaogang/BaseResultVO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -684,13 +664,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/xiaogang/ExcelUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5141777">
-          <caret line="122" column="17" selection-start-line="122" selection-start-column="17" selection-end-line="122" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="120" column="0" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
           <folding>
             <element signature="e#1861#1862#0" expanded="true" />
             <element signature="e#1921#1922#0" expanded="true" />
             <element signature="e#2139#2147#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/xiaogang/ExcelUtilsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4536862">
+          <caret line="16" column="19" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="25" />
+          <folding />
         </state>
       </provider>
     </entry>
