@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 /**
  * Excel数据导入支持设置行号的基础类, 如果继承了该类, 在解析时会设置行号, 否则忽略
- *
- * @author xiaogang
- * @date 2016-07-04
  */
 public class ExcelRowIndexSupport implements Serializable {
 

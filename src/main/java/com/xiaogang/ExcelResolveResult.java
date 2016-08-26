@@ -6,10 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * @author xiaogang
- * @date 2016-06-25
- */
 @Data
 public class ExcelResolveResult<T> {
 

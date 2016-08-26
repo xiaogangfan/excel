@@ -3,9 +3,6 @@ package com.xiaogang;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by zhanglei on 16/5/23.
- */
 public class BaseResultVO<T> implements Serializable {
 
 	private static final long serialVersionUID = -249566887341016360L;

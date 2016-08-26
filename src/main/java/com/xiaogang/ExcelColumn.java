@@ -2,10 +2,6 @@ package com.xiaogang;
 
 import java.lang.annotation.*;
 
-/**
- * @author xiaogang
- * @date 2016-06-25
- */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
