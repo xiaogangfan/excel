@@ -197,9 +197,13 @@ public class FlexItemEO extends ExcelRowIndexSupport implements Serializable {
     private String logisticsCenterCode;
 
 
+    @NotNull(message = "商品标签类型不能为空")
+    @ExcelColumn(name = "商品标签类型", defaultValue = "1")
+    private String labelTypeCode;
+
     @NotNull(message = "标价签类型不能为空")
     @ExcelColumn(name = "标价签类型", defaultValue = "1")
-    private String labelTypeCode;
+    private String labelPriceTypeCode;
 
 
 

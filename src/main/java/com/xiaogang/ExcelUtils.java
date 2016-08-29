@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -87,8 +87,22 @@ public final class ExcelUtils {
         return new BaseResultVO<>(false, data, "导入失败");
     }
 
-    public static <T> ExcelResolveResult<T> resolveExcel(InputStream stream, Class<T> clazz) throws Exception {
-        return resolveExcel(stream, clazz, false);
+    /**
+     *
+     * @param stream
+     * @param clazz
+     * @param excelType 1:xls  2:xlsx
+     * @param <T>
+     * @return
+     * @throws Exception
+     */
+    public static <T> ExcelResolveResult<T> resolveExcel(InputStream stream, Class<T> clazz,Integer excelType) throws Exception {
+        if(excelType == 1){
+            return resolveXlsExcel(stream, clazz, false);
+        }else  if(excelType == 2){
+            return resolveExcel(stream, clazz, false);
+        }
+        return null;
     }
 
     /**
@@ -117,6 +131,7 @@ public final class ExcelUtils {
      * @throws Exception
      */
     public static <T> ExcelResolveResult<T> resolveExcel(InputStream stream, Class<T> clazz, boolean doValidate) throws Exception {
+
         XSSFWorkbook workbook = new XSSFWorkbook(stream);
 
         XSSFSheet sheet = workbook.getSheetAt(0);
@@ -233,6 +248,68 @@ public final class ExcelUtils {
                         break;
                     case Cell.CELL_TYPE_ERROR:
                         log.error("column [name={}] is error type, error string value is [{}], will set default value", columnName, cell.getErrorCellString());
+                        break;
+                }
+            } else {
+                log.error("column [name={}] cell is null, will set default value.", columnName);
+            }
+
+            if (value == null) {
+                // 设置默认值
+                if (field.isAnnotationPresent(ExcelColumn.class)) {
+                    value = getDefaultValue(field);
+                    if (value != null) {
+                        log.info("column [{}] value is null, set default value [{}]", columnName, value);
+                    }
+                }
+            } else {
+                nullRowFlag = false;
+            }
+
+            if (value != null) {
+                field.set(instance, value);
+            }
+        }
+        return nullRowFlag ? null : instance;
+    }
+    private static <T> T resolveRowXls(HSSFRow row, Class<T> clazz, Map<Integer, Field> fieldMap) throws Exception {
+        T instance = clazz.newInstance();
+
+        // 整行是否为空的标志, 如果整行都为空, 那么cell都为null
+        boolean nullRowFlag = true;
+
+        int lastCellNum = row.getLastCellNum();
+        for (int index = 0; index <= lastCellNum; index++) {
+            Field field = fieldMap.get(index);
+            if (field == null) {
+                log.warn("column [index={}] has no mapped field info", index + 1);
+                continue;
+            }
+
+            String columnName = field.getName();
+            log.debug("resolve column[name={}, columnIndex={}]", columnName, index + 1);
+
+            Object value = null;
+            Class<?> paramType = field.getType();
+            HSSFCell cell = row.getCell(index);
+
+            if (cell != null) {
+                int cellType = cell.getCellType();
+                switch (cellType) {
+                    case Cell.CELL_TYPE_NUMERIC:
+                        value = convertNumericValue(cell.getNumericCellValue(), paramType);
+                        break;
+                    case Cell.CELL_TYPE_STRING:
+                        value = convertStringValue(cell.getStringCellValue(), paramType);
+                        break;
+                    case Cell.CELL_TYPE_BOOLEAN:
+                        value = convertBooleanValue(cell.getBooleanCellValue(), paramType);
+                        break;
+                    case Cell.CELL_TYPE_BLANK:
+                        log.info("column [name={}] is blank type, will set default value", columnName);
+                        break;
+                    case Cell.CELL_TYPE_ERROR:
+                        log.error("column [name={}] is error type, error string value is [{}], will set default value", columnName, cell.getErrorCellValue());
                         break;
                 }
             } else {
@@ -497,6 +574,42 @@ public final class ExcelUtils {
         return map;
     }
 
+    private static Map<Integer, Field> columnIndexFieldInfoXls(HSSFRow row, Class<?> clazz) {
+        Map<Integer, Field> map = Maps.newHashMap();
+
+        Map<String, Field> stringFieldMap = fieldInfo(clazz);
+
+        // 表头字段值的格式: 表头(备注)
+        Pattern pattern = Pattern.compile("(.*?)(\\s*[(（].*?[）)]?)?");
+
+        int lastCellNum = row.getLastCellNum();
+        for (int index = 0; index <= lastCellNum; index++) {
+            HSSFCell cell = row.getCell(index);
+            if (cell == null) {
+                break;
+            }
+            String stringCellValue = cell.getStringCellValue();
+            if (StringUtils.isBlank(stringCellValue)) {
+                log.info("skip blank header [index={}]", index + 1);
+                continue;
+            }
+            Matcher matcher = pattern.matcher(stringCellValue.trim());
+            if (matcher.matches()) {
+                Field field = stringFieldMap.get(matcher.group(1));
+                if (field == null) {
+                    log.error("column [{}] has no filed info of type [{}]", stringCellValue, clazz.getCanonicalName());
+                    continue;
+                }
+
+                map.put(index, field);
+            } else {
+                log.error("header value [{}] not match the rule [header(comments)]", stringCellValue);
+            }
+        }
+
+        return map;
+    }
+
     private static Map<String, Field> fieldInfo(Class<?> clazz) {
         Map<String, Field> map = Maps.newHashMap();
 
@@ -514,6 +627,87 @@ public final class ExcelUtils {
         }
 
         return map;
+    }
+
+
+    public static <T> ExcelResolveResult<T> resolveXlsExcel(InputStream stream, Class<T> clazz, boolean doValidate) throws Exception {
+
+        HSSFWorkbook workbook = new HSSFWorkbook(stream);
+
+        HSSFSheet sheet = workbook.getSheetAt(0);
+        if (sheet == null) {
+            log.warn("Worksheet not found.");
+            return ExcelResolveResult.fail("Worksheet not found.");
+        }
+        int maxRow = sheet.getLastRowNum();
+
+        Map<Integer, Field> fieldMap = columnIndexFieldInfoXls(sheet.getRow(0), clazz);
+
+        StringBuilder validateMessage = new StringBuilder();
+        Validator validator = Validation.byProvider(HibernateValidator.class).configure().failFast(false).buildValidatorFactory().getValidator();
+
+        List<Callable<Optional<KeyValue<T, String>>>> list = Lists.newArrayListWithExpectedSize(maxRow);
+
+        for (int line = 1; line <= maxRow; line++) {
+            log.info("resolve row[{}]", line);
+            HSSFRow row = sheet.getRow(line);
+            if (row == null) {
+                continue;
+            }
+
+            int rowIndex = line + 1;
+
+            list.add(() -> {
+                T entity = resolveRowXls(row, clazz, fieldMap);
+                if (entity == null) {
+                    return Optional.empty();
+                }
+
+                // 设置行号
+                setRowIndex(entity, rowIndex);
+
+                DefaultKeyValue<T, String> keyValue = new DefaultKeyValue<>();
+                keyValue.setKey(entity);
+
+                // 做数据校验
+                if (doValidate) {
+                    Set<ConstraintViolation<T>> validateResult = validator.validate(entity);
+                    if (!validateResult.isEmpty()) {
+                        // 错误信息格式为: 'column1 error|column2 error|columnX error,column1 error|column2 error|columnX error......'
+                        String msg = validateResult.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining("|"));
+                        keyValue.setValue(msg);
+                    }
+                }
+                return Optional.of(keyValue);
+            });
+        }
+
+        List<Future<Optional<KeyValue<T, String>>>> futureList = executor.invokeAll(list);
+        List<T> resultList = Lists.newArrayList();
+        futureList.forEach((future) -> {
+            try {
+                Optional<KeyValue<T, String>> optional = future.get();
+                if (optional.isPresent()) {
+                    KeyValue<T, String> kv = optional.get();
+                    resultList.add(kv.getKey());
+                    String msg = kv.getValue();
+                    if (StringUtils.isNotBlank(msg)) {
+                        validateMessage.append(msg).append(",");
+                    }
+                }
+            } catch (Exception e) {
+                log.error("handle error:", e);
+            }
+        });
+
+        ExcelResolveResult<T> result = new ExcelResolveResult<>();
+        result.setData(resultList);
+        int length = validateMessage.length();
+        if (length > 0) {
+            result.setMessage(validateMessage.deleteCharAt(length - 1).toString());
+        }
+
+        return result;
     }
 
     private static final Map<Class<?>, Class<?>> primitiveTypes = Maps.newHashMap();
