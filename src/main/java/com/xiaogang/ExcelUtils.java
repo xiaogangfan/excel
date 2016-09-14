@@ -710,6 +710,32 @@ public final class ExcelUtils {
         return result;
     }
 
+    public static <T> List<String> getDateHead(InputStream stream) throws Exception {
+        List<String> result = new ArrayList();
+        XSSFWorkbook workbook = new XSSFWorkbook(stream);
+
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        if (sheet == null) {
+            log.warn("Worksheet not found.");
+        }
+        int maxRow = sheet.getLastRowNum();
+        for (int line = 0; line <= 0; line++) {
+            log.info("resolve row[{}]", line);
+            XSSFRow row = sheet.getRow(line);
+            if (row == null) {
+                continue;
+            }
+            int lastCellNum = row.getLastCellNum();
+            for (int i = 0; i < lastCellNum; i++) {
+                if(row.getCell(0) != null){
+                    result.add(row.getCell(i).toString());
+                }
+            }
+            int rowIndex = line + 1;
+        }
+        return result;
+    }
+
     private static final Map<Class<?>, Class<?>> primitiveTypes = Maps.newHashMap();
 
     static {
